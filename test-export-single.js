@@ -7,7 +7,7 @@ ee.data.authenticateViaPrivateKey(PRIVATE_KEY, () => {
   ee.initialize(null, null, () => {
     const exportS1 = require('./exportS1');
     let toConsole = (a) => { console.log(a) }
-    exportS1.exportReservoirData('Massingir', toConsole, toConsole)
+    exportS1.exportReservoirData('Corumana', toConsole, toConsole)
   });
 });
 
