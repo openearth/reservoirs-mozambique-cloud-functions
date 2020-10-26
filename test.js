@@ -1,3 +1,4 @@
+// test
 const assert = require('assert');
 const sinon = require('sinon');
 const uuid = require('uuid');
