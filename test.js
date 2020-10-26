@@ -5,7 +5,7 @@ const uuid = require('uuid');
 
 const {exportReservoirTimeSeries} = require('.');
 
-it('exportReservoirTimeSeries: should return getInfo', () => {
+it('exportReservoirTimeSeries: should export all reservoirs', () => {
   // Mock ExpressJS 'req' and 'res' parameters
   const name = uuid.v4();
   const req = {
@@ -28,9 +28,5 @@ it('exportReservoirTimeSeries: should return getInfo', () => {
 
   // Call tested function
   exportReservoirTimeSeries(req, res);
-
-  // Verify behavior of tested function
-  // assert.ok(res.send.calledOnce);
-
-  // assert.deepStrictEqual(res.send.firstCall.args, [`Hello ${name}!`]);
 });
+

@@ -6,9 +6,11 @@ const bucket = storage.bucket('mz-reservoir-data');
 
 const ee = require('@google/earthengine');
 
-const PRIVATE_KEY = require('./privatekey-mz.json');
+const PRIVATE_KEY = require('./privatekey.json');
 
 const { reservoirs } = require('./reservoirs');
+
+
 
 // some test results:
 /*
@@ -261,6 +263,11 @@ function exportReservoirData(reservoir, resolve, reject) {
 
   timeSeries.evaluate((timeSeries) => {
     // TODO: merge current time series with historical ...
+    // 1. download time series from GS
+    // 2. merge with current time series
+    // 3. store merged results
+
+    // mergeTimeSeries(ts1, timeSeries)
 
     console.log(timeSeries)
 

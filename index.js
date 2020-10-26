@@ -1,4 +1,3 @@
-const escapeHtml = require('escape-html');
 const ee = require('@google/earthengine');
 const PRIVATE_KEY = require('./privatekey.json');
 
@@ -27,5 +26,8 @@ exports.exportReservoirTimeSeries = function exportReservoirTimeSeries(req, res)
       })
     });
   });
+};
 
+exports.mergeTimeSeries = function mergeTimeSeries(req, res) {
+  res.send('All time series are merged!')
 };
