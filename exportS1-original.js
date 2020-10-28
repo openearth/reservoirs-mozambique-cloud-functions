@@ -263,66 +263,39 @@ function exportReservoirData(reservoir, resolve, reject) {
   let timeSeries = times.zip(area)
 
   timeSeries.evaluate((timeSeries) => {
-    const srcFilename = `${reservoir}_A.geojson`;
-    const destFilename = `/tmp/${reservoir}_A.geojson`;
-    bucket.file(srcFilename).download({ destination: destFilename }, (err, file, apiResponse) => {
+    
+    // TODO: merge current time series with historical ...
+    // 1. download time series from GS
+    // 2. merge with current time series
+    // 3. store merged results
+ 
+    // mergeTimeSeries(ts1, timeSeries)
+
+    console.log(timeSeries)
+
+    let json = JSON.stringify(timeSeries)
+    let filename = `/tmp/water-area-${reservoir}.json`  
+
+    fs.writeFile(filename, json, {
+      flag: 'w'
+    }, (err) => {
       if (err) {
         console.error(err)
         reject()
       }
-
-      console.log('Testing download')
-      // Read file
-      const fs = require('fs')
-      let rawdata = fs.readFileSync(destFilename);
-      let historical = JSON.parse(rawdata);
-
-      // remove existing time stamps
-      Array.prototype.unique = function () {
-        var a = this.concat();
-        for (var i = 0; i < a.length; ++i) {
-          for (var j = i + 1; j < a.length; ++j) {
-            if (a[i][0] === a[j][0])
-              a.splice(j--, 1);
-          }
-        }
-
-        return a;
-      };
-
-      let historicalDates = historical.features.map(f => f.properties.date)
-      let historicalArea = historical.features.map(f => f.properties.area) 
-      var historicaltimeSeries = historicalArea.map(function(e, i) {
-        return [e, historicalDates[i]];
-      });
-
-      // merge
-      let all = historicaltimeSeries.concat(timeSeries).unique()
-      let final = all.map(o => { return { geometry: null, type: 'Feature', properties: { area: o[1], date: o[0] } } })
-
-      let json = JSON.stringify(final)
-      let filename = `/tmp/water-area-${reservoir}.json`  
-
-      fs.writeFile(filename, json, {
-        flag: 'w'
-      }, (err) => {
-        if (err) {
-          console.error(err)
-          reject()
-        }
-      });
-
-      const options = { destination: 'exported/' + filename.substring(5) }
-      console.log(`Uploading ${filename} to storage bucket ...`)
-      bucket.upload(filename, options, (err, file, apiResponse) => {
-        if (err) {
-          console.error(err)
-          reject()
-        }
-      });
-
-      resolve('Computed time series and uploaded to GS bucket')
     });
+
+    const options = { destination: 'exported/' + filename.substring(5) }
+
+    console.log(`Uploading ${filename} to storage bucket ...`)
+    bucket.upload(filename, options, (err, file, apiResponse) => {
+      if (err) {
+        console.error(err)
+        reject()
+      }
+    });
+
+    resolve('Computed time series and uploaded to GS bucket')
   });
 }
 

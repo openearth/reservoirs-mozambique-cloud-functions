@@ -263,15 +263,11 @@ function exportReservoirData(reservoir, resolve, reject) {
   let timeSeries = times.zip(area)
 
   timeSeries.evaluate((timeSeries) => {
-    const srcFilename = `${reservoir}_A.geojson`;
-    const destFilename = `/tmp/${reservoir}_A.geojson`;
-    bucket.file(srcFilename).download({ destination: destFilename }, (err, file, apiResponse) => {
-      if (err) {
-        console.error(err)
-        reject()
-      }
 
-      console.log('Testing download')
+    const srcFilename = `${reservoir}_A.geojson`;
+    const destFilename = `/tmp/download/${reservoir}_A.geojson`;
+    bucket.file(srcFilename).download({ destination: destFilename }, () => {
+
       // Read file
       const fs = require('fs')
       let rawdata = fs.readFileSync(destFilename);
