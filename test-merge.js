@@ -17,7 +17,7 @@ bucket.file(srcFilename).download({ destination: destFilename }, () => {
 
   let ts = JSON.parse(fs.readFileSync('/tmp/water-area-Massingir.json'));
   // remove existing time stamps
-
+ console.log('real time time series', ts)
   Array.prototype.unique = function () {
     var a = this.concat();
     for (var i = 0; i < a.length; ++i) {
@@ -33,9 +33,11 @@ bucket.file(srcFilename).download({ destination: destFilename }, () => {
   let historicalDates = historical.features.map(f => f.properties.date)
   let historicalArea = historical.features.map(f => f.properties.area) 
   var historicaltimeSeries = historicalArea.map(function(e, i) {
-    return [e, historicalDates[i]];
+    return [historicalDates[i],e];
   });
-
+  // console.log('historical area', historicalArea)
+  // console.log('historical dates', historicalDates)
+  console.log('historical timeseries', historicaltimeSeries)
 
   // merge
   let all = historicaltimeSeries.concat(ts).unique()

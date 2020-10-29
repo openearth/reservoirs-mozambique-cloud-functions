@@ -248,7 +248,7 @@ function exportReservoirData(reservoir, resolve, reject) {
     area = ee.Number(area.values().get(0))
 
     // convert from m2 to km2
-    area = area.divide(1e6); 
+  //  area = area.divide(1e6); 
 
     return ee.Feature(null, {
       date: i.date().millis(),
@@ -293,14 +293,15 @@ function exportReservoirData(reservoir, resolve, reject) {
       let historicalDates = historical.features.map(f => f.properties.date)
       let historicalArea = historical.features.map(f => f.properties.area) 
       var historicaltimeSeries = historicalArea.map(function(e, i) {
-        return [e, historicalDates[i]];
+        return [historicalDates[i],e];
       });
 
       // merge
       let all = historicaltimeSeries.concat(timeSeries).unique()
       let final = all.map(o => { return { geometry: null, type: 'Feature', properties: { area: o[1], date: o[0] } } })
 
-      let json = JSON.stringify(final)
+      historical.features = final
+      let json = JSON.stringify(historical)
       let filename = `/tmp/water-area-${reservoir}.json`  
 
       fs.writeFile(filename, json, {

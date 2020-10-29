@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha",
-    "deploy": "gcloud config set project mozambique-water & gcloud functions deploy exportReservoirTimeSeries --runtime nodejs10 --timeout=120 --trigger-http --allow-unauthenticated",
+    "deploy": "gcloud config set project mozambique-water & gcloud functions deploy exportReservoirTimeSeries --runtime nodejs10 --timeout=300 --trigger-http --allow-unauthenticated",
     "trigger": "gcloud functions call exportReservoirTimeSeries",
     "deploy2": "gcloud config set project mozambique-water & gcloud functions deploy mergeTimeSeries --runtime nodejs10 --timeout=120 --trigger-http --allow-unauthenticated",
     "trigger2": "gcloud functions call mergeTimeSeries"

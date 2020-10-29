@@ -23,47 +23,14 @@ Array.prototype.unique = function() {
  let ts = [ [ 1602692586001, 76.79519570823453 ],
  [ 1602731916002, 108.43771385888962 ],
  [ 1603125075000, 102.2641057039438 ]]
- let HistoricalDates2 = [ [ 1602692586000, 76.79519570823453 ],
+ let HistoricalDates = [ [ 1602692586000, 76.79519570823453 ],
  [ 1602731916000, 108.43771385888962 ],
  [ 1603125075000, 102.2641057039438 ],
  [ 1603250277000, 107.99940177155712 ] ]
- let array3 = HistoricalDates2.concat(ts).unique();
+ let array3 = HistoricalDates.concat(ts).unique();
  
-     
 
 
 
- let HistoricalDates = [4, 2, 10]
- let test = 2 * HistoricalDates
- console.log(test)
-    // for(let i=0; i<ts.length; i++) {
-    //         if(ts[i][0] == HistoricalDates){
-    //             console.log('testing');
-    //         }   
-    //     }
-
-    //     console.log(ts);
-//    console.log(HistoricalDates)     
-//     for(let i=0; i<ts.length; i++) {
-//         let array_test = (ts[i][0])
-//         console.log(array_test);
-//         }
-// array_total = array_test.push(array_test)
-// console.log(array_total);
-
-    // for(let i=0; i<ts.length; i++) {
-      //  let total = array_test.filter(val => !HistoricalDates.includes(val))
-      //  console.log(total)
-    //         }   
-    //     }
-    //     console.log(array_test);
- //array4 = (array1[1][0])
- //let array3 = ts.filter(val => !HistoricalDates.includes(val));
-// const arrayColumn = (arr, n) => arr.map(x => x[n]);
-//console.log(i)
-
-
-
-
-
- //array2 = RemoveHist(array2, array1)
+ console.log(array3)
+ 
