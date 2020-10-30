@@ -225,9 +225,9 @@ function exportReservoirData(reservoir, resolve, reject) {
 
   let images = ee.ImageCollection("COPERNICUS/S1_GRD")
 
-  // define export time interval: [-15 days, now]
+  // define export time interval: [-7 days, now]
   let dateStop = ee.Date(new Date());
-  let dateStart = dateStop.advance(-15, 'day');
+  let dateStart = dateStop.advance(-7, 'day');
 
   images = images.filterBounds(geom)
     .filterDate(dateStart, dateStop)
@@ -262,9 +262,10 @@ function exportReservoirData(reservoir, resolve, reject) {
   let area = features.aggregate_array('area')
   let timeSeries = times.zip(area)
 
+
   timeSeries.evaluate((timeSeries) => {
-    const srcFilename = `${reservoir}_A.geojson`;
-    const destFilename = `/tmp/${reservoir}_A.geojson`;
+    const srcFilename = `water-area-${reservoir}.json`;
+    const destFilename = `/tmp/water-area-${reservoir}.json`;
     bucket.file(srcFilename).download({ destination: destFilename }, (err, file, apiResponse) => {
       if (err) {
         console.error(err)
@@ -276,6 +277,16 @@ function exportReservoirData(reservoir, resolve, reject) {
       const fs = require('fs')
       let rawdata = fs.readFileSync(destFilename);
       let historical = JSON.parse(rawdata);
+
+      // backup historical time series from the previous run
+       const backupoptions = { destination: 'backup/' + destFilename.substring(5) }
+       console.log(`Uploading ${destFilename} to storage bucket ...`)
+       bucket.upload(destFilename, backupoptions, (err, file, apiResponse) => {
+         if (err) {
+           console.error(err)
+           reject()
+         }
+       });
 
       // remove existing time stamps
       Array.prototype.unique = function () {
@@ -312,8 +323,8 @@ function exportReservoirData(reservoir, resolve, reject) {
           reject()
         }
       });
-
-      const options = { destination: 'exported/' + filename.substring(5) }
+      // const options = { destination: 'exported/' + filename.substring(5) }
+      const options = { destination: filename.substring(5) }
       console.log(`Uploading ${filename} to storage bucket ...`)
       bucket.upload(filename, options, (err, file, apiResponse) => {
         if (err) {

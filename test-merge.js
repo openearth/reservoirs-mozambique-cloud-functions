@@ -15,7 +15,7 @@ bucket.file(srcFilename).download({ destination: destFilename }, () => {
   let rawdata = fs.readFileSync(destFilename);
   let historical = JSON.parse(rawdata);
 
-  let ts = JSON.parse(fs.readFileSync('/tmp/water-area-Massingir.json'));
+  let ts = JSON.parse(fs.readFileSync('/tmp/water-area-Chicamba.json'));
   // remove existing time stamps
  console.log('real time time series', ts)
   Array.prototype.unique = function () {
@@ -44,6 +44,6 @@ bucket.file(srcFilename).download({ destination: destFilename }, () => {
   let features = all.map(o => { return { geometry: null, type: 'Feature', properties: { area: o[1], date: o[0] } } })
 
   let total = JSON.stringify(features)
-  fs.writeFileSync('/tmp/final/water-area-Massingir-all.json', total)
+  fs.writeFileSync('/tmp/final/water-area-Chicamba-all.json', total)
 });
 
